@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferretería Estefi - Herramientas Profesionales</title>
+    <meta name="description" content="Ferretería Estefi - Todo en herramientas, materiales de construcción y equipamiento profesional. Calidad y servicio garantizado.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button class="modal-close" onclick="app.closeModal('loginModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email:</label>
+                        <input type="email" id="loginEmail" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña:</label>
+                        <input type="password" id="loginPassword" placeholder="Tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Iniciar Sesión</span>
+                        <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                </form>
+                <div class="auth-links">
+                    <p>¿No tienes cuenta? <a href="#" onclick="app.showRegister()">Regístrate aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Cuenta</h3>
+                <button class="modal-close" onclick="app.closeModal('registerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Nombre completo:</label>
+                        <input type="text" id="registerName" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email:</label>
+                        <input type="email" id="registerEmail" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Teléfono:</label>
+                        <input type="tel" id="registerPhone" placeholder="+1 (555) 123-4567" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Contraseña:</label>
+                        <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmar Contraseña:</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Repite tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Crear Cuenta</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </form>
+                <div class="auth-links">
+                    <p>¿Ya tienes cuenta? <a href="#" onclick="app.showLogin()">Inicia sesión aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Mi Perfil</h3>
+                <button class="modal-close" onclick="app.closeModal('profileModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info" id="profileInfo">
+                    <!-- Profile info will be loaded here -->
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-outline btn-block" onclick="app.showOrderHistory()">
+                        <i class="fas fa-history"></i>
+                        <span>Ver Historial de Pedidos</span>
+                    </button>
+                    <button class="btn btn-outline btn-block" onclick="app.logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order History Modal -->
+    <div class="modal" id="orderHistoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Mis Pedidos</h3>
+                <button class="modal-close" onclick="app.closeModal('orderHistoryModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-history" id="orderHistory">
+                    <!-- Order history will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Modal -->
+    <div class="modal" id="shippingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Información de Envío</h3>
+                <button class="modal-close" onclick="app.closeModal('shippingModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="shippingForm">
+                    <div class="form-group">
+                        <label for="shippingName">Nombre completo:</label>
+                        <input type="text" id="shippingName" placeholder="Nombre del destinatario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingPhone">Teléfono:</label>
+                        <input type="tel" id="shippingPhone" placeholder="+1 (555) 123-4567" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingAddress">Dirección:</label>
+                        <input type="text" id="shippingAddress" placeholder="Calle, número, colonia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingCity">Ciudad:</label>
+                        <input type="text" id="shippingCity" placeholder="Ciudad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingState">Estado:</label>
+                        <input type="text" id="shippingState" placeholder="Estado" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingZip">Código Postal:</label>
+                        <input type="text" id="shippingZip" placeholder="C.P." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingInstructions">Instrucciones de entrega:</label>
+                        <textarea id="shippingInstructions" placeholder="Instrucciones especiales para el repartidor..." rows="3"></textarea>
+                    </div>
+                    <div class="shipping-options">
+                        <h4>Método de Envío</h4>
+                        <div class="shipping-option">
+                            <input type="radio" id="standardShipping" name="shippingMethod" value="standard" checked>
+                            <label for="standardShipping">
+                                <span class="shipping-type">Estándar (3-5 días)</span>
+                                <span class="shipping-price">$99.00</span>
+                            </label>
+                        </div>
+                        <div class="shipping-option">
+                            <input type="radio" id="expressShipping" name="shippingMethod" value="express">
+                            <label for="expressShipping">
+                                <span class="shipping-type">Express (24-48 horas)</span>
+                                <span class="shipping-price">$199.00</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Confirmar Envío</span>
+                        <i class="fas fa-truck"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tools"></i>
+                    <h1>Ferretería <span>Estefi</span></h1>
+                </div>
+                <div class="header-info">
+                    <div class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-clock"></i>
+                        <span>Lun-Sáb: 7:00 AM - 8:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#inicio" class="nav-link active" data-tab="inicio">Inicio</a></li>
+                <li><a href="#productos" class="nav-link" data-tab="productos">Productos</a></li>
+                <li><a href="#servicios" class="nav-link" data-tab="servicios">Servicios</a></li>
+                <li><a href="#nosotros" class="nav-link" data-tab="nosotros">Nosotros</a></li>
+                <li><a href="#contacto" class="nav-link" data-tab="contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-search" id="searchToggle">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="user-actions">
+                    <button class="btn-auth" id="authButton">
+                        <i class="fas fa-user"></i>
+                        <span id="authText">Iniciar Sesión</span>
+                    </button>
+                </div>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <div class="search-header">
+                <h3>Buscar Productos</h3>
+                <button class="btn-search-close" id="searchClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-input-group">
+                <input type="text" id="searchInput" placeholder="Buscar herramientas, materiales, marcas...">
+                <button class="btn-search-submit">
+                    <i class="fas fa-search"></i>
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="inicio" class="tab-content active">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h2 class="hero-title">Herramientas Profesionales para tus Proyectos</h2>
+                            <p class="hero-description">Más de 20 años proporcionando las mejores herramientas y materiales de construcción con calidad garantizada y precios competitivos.</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary" onclick="app.openTab('productos')">
+                                    <span>Ver Productos</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                                <button class="btn btn-secondary" onclick="app.openTab('servicios')">
+                                    <span>Nuestros Servicios</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hero-image">
+                            <img src="https://images.unsplash.com/photo-1572981779307-38f8b0456222?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Herramientas profesionales">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <section class="features">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Calidad Garantizada</h3>
+                            <p>Todos nuestros productos cuentan con garantía y certificaciones de calidad internacional.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3>Envío a Domicilio</h3>
+                            <p>Entrega en 24-48 horas en toda la ciudad. Servicio express disponible.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3>Soporte Expertos</h3>
+                            <p>Asesoramiento técnico profesional para ayudarte en tus proyectos.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <h3>+20 Años</h3>
+                            <p>Experiencia y confianza que nos respaldan en el mercado ferretero.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="featured-products">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Productos Destacados</h2>
+                        <p>Los artículos más vendidos y mejor valorados por nuestros clientes</p>
+                    </div>
+                    <div class="products-grid" id="featuredProducts">
+                        <!-- Featured products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Brands -->
+            <section class="brands">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Marcas Colaboradoras</h2>
+                    </div>
+                    <div class="brands-slider">
+                        <div class="brands-track">
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/04/DeWalt-Logo.png" alt="DeWalt">
+                            </div>
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/07/Makita-Logo.png" alt="Makita">
+                            </div>
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/04/Bosch-Logo.png" alt="Bosch">
+                            </div>
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/04/Stanley-Logo.png" alt="Stanley">
+                            </div>
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/03/3M-Logo.png" alt="3M">
+                            </div>
+                            <div class="brand-item">
+                                <img src="https://logos-world.net/wp-content/uploads/2020/04/Black-Decker-Logo.png" alt="Black & Decker">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Products Section -->
+        <section id="productos" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Nuestro Catálogo</h2>
+                    <p>Descubre nuestra amplia gama de productos para construcción y bricolaje</p>
+                </div>
+
+                <!-- Categories -->
+                <div class="categories-filter">
+                    <button class="category-btn active" data-category="all">Todos</button>
+                    <button class="category-btn" data-category="herramientas">Herramientas</button>
+                    <button class="category-btn" data-category="electricidad">Electricidad</button>
+                    <button class="category-btn" data-category="fontaneria">Fontanería</button>
+                    <button class="category-btn" data-category="pintura">Pintura</button>
+                    <button class="category-btn" data-category="seguridad">Seguridad</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                </div>
+
+                <!-- Load More -->
+                <div class="load-more">
+                    <button class="btn btn-outline" id="loadMore">
+                        <span>Cargar Más Productos</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicios" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Servicios Profesionales</h2>
+                    <p>Ofrecemos soluciones integrales para tus proyectos de construcción y remodelación</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-toolbox"></i>
+                        </div>
+                        <h3>Asesoría Técnica</h3>
+                        <p>Nuestros expertos te ayudan a elegir los materiales y herramientas adecuadas para tu proyecto.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Análisis de necesidades</li>
+                            <li><i class="fas fa-check"></i> Recomendaciones técnicas</li>
+                            <li><i class="fas fa-check"></i> Presupuestos personalizados</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h3>Entrega a Domicilio</h3>
+                        <p>Servicio de entrega rápida para proyectos urgentes y materiales críticos.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Entrega en 24 horas</li>
+                            <li><i class="fas fa-check"></i> Seguimiento en tiempo real</li>
+                            <li><i class="fas fa-check"></i> Instalación disponible</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Reparación y Mantenimiento</h3>
+                        <p>Servicio técnico especializado para herramientas eléctricas y equipos de construcción.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Diagnóstico gratuito</li>
+                            <li><i class="fas fa-check"></i> Reparación en 48 horas</li>
+                            <li><i class="fas fa-check"></i> Repuestos originales</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <h3>Alquiler de Equipos</h3>
+                        <p>Amplia gama de equipos profesionales disponibles para alquiler por día o semana.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Equipos certificados</li>
+                            <li><i class="fas fa-check"></i> Seguro incluido</li>
+                            <li><i class="fas fa-check"></i> Entrega en obra</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="nosotros" class="tab-content">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Más de 20 Años Construyendo Confianza</h2>
+                        <p>En Ferretería Estefi nos enorgullece ser tu aliado de confianza en proyectos de construcción, remodelación y mejoras del hogar. Desde 2003, hemos estado proporcionando herramientas y materiales de la más alta calidad a profesionales y entusiastas del bricolaje.</p>
+                        
+                        <div class="about-stats">
+                            <div class="stat">
+                                <h3>15,000+</h3>
+                                <p>Clientes Satisfechos</p>
+                            </div>
+                            <div class="stat">
+                                <h3>8,500+</h3>
+                                <p>Productos Disponibles</p>
+                            </div>
+                            <div class="stat">
+                                <h3>98%</h3>
+                                <p>Índice de Satisfacción</p>
+                            </div>
+                        </div>
+
+                        <div class="about-values">
+                            <h3>Nuestros Valores</h3>
+                            <div class="values-grid">
+                                <div class="value-item">
+                                    <i class="fas fa-gem"></i>
+                                    <h4>Calidad</h4>
+                                    <p>Trabajamos solo con marcas certificadas y productos de primera calidad.</p>
+                                </div>
+                                <div class="value-item">
+                                    <i class="fas fa-handshake"></i>
+                                    <h4>Confianza</h4>
+                                    <p>Relaciones duraderas basadas en la honestidad y transparencia.</p>
+                                </div>
+                                <div class="value-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <h4>Innovación</h4>
+                                    <p>Siempre a la vanguardia con las últimas tecnologías y herramientas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Nuestro equipo">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contacto" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Contáctanos</h2>
+                    <p>Estamos aquí para ayudarte en tu próximo proyecto</p>
+                </div>
+
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Visítanos</h3>
+                                <p>Av. Principal #123<br>Centro Comercial Plaza Mayor<br>Ciudad, Estado 12345</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Llámanos</h3>
+                                <p>+1 (555) 123-4567<br>+1 (555) 123-4568</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Escríbenos</h3>
+                                <p>info@ferreteriaestefi.com<br>ventas@ferreteriaestefi.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Horario</h3>
+                                <p>Lunes - Viernes: 7:00 AM - 8:00 PM<br>Sábados: 8:00 AM - 6:00 PM<br>Domingos: 9:00 AM - 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" placeholder="Tu nombre completo" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" placeholder="Tu correo electrónico" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" placeholder="Tu teléfono">
+                            </div>
+                            <div class="form-group">
+                                <select id="subject" required>
+                                    <option value="">Selecciona un asunto</option>
+                                    <option value="cotizacion">Cotización</option>
+                                    <option value="soporte">Soporte Técnico</option>
+                                    <option value="producto">Consulta de Producto</option>
+                                    <option value="servicio">Servicios Profesionales</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" rows="5" placeholder="Tu mensaje..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span>Enviar Mensaje</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-outline btn-block" id="clearCart">
+                    <span>Vaciar Carrito</span>
+                </button>
+                <button class="btn btn-primary btn-block" id="checkout">
+                    <span>Finalizar Compra</span>
+                    <i class="fas fa-credit-card"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Finalizar Compra</h3>
+                <button class="modal-close" onclick="app.closeModal('checkoutModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ticketContent">
+                    <!-- Ticket content will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="app.closeModal('checkoutModal')">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Seguir Comprando</span>
+                </button>
+                <button class="btn btn-primary" onclick="app.showShipping()">
+                    <i class="fas fa-truck"></i>
+                    <span>Enviar a Domicilio</span>
+                </button>
+                <button class="btn btn-secondary" onclick="app.printTicket()">
+                    <i class="fas fa-print"></i>
+                    <span>Imprimir Ticket</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-tools"></i>
+                        <h3>Ferretería <span>Estefi</span></h3>
+                    </div>
+                    <p>Tu socio de confianza en herramientas y materiales de construcción desde 2003.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="#" data-category="herramientas">Herramientas</a></li>
+                        <li><a href="#" data-category="electricidad">Material Eléctrico</a></li>
+                        <li><a href="#" data-category="fontaneria">Fontanería</a></li>
+                        <li><a href="#" data-category="pintura">Pintura</a></li>
+                        <li><a href="#" data-category="seguridad">Seguridad</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Suscríbete para recibir ofertas exclusivas y consejos profesionales.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Tu correo electrónico" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ferretería Estefi. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
