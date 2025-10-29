@@ -1,0 +1,3762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cicada - Plataforma de Aprendizaje en Línea</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #14BF96;
+            --primary-dark: #0fa37e;
+            --primary-darker: #0a8c6a;
+            --primary-light: #e9f9f5;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            --secondary-color: #6c63ff;
+            --accent-color: #FF6B6B;
+            --warning-color: #FFA726;
+            --success-color: #4CAF50;
+            --text-color: #2D3748;
+            --text-light: #718096;
+            --text-lighter: #A0AEC0;
+            --bg-color: #F7FAFC;
+            --bg-white: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --border-color: #E2E8F0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark-mode {
+            --text-color: #F7FAFC;
+            --text-light: #CBD5E0;
+            --text-lighter: #A0AEC0;
+            --bg-color: #1A202C;
+            --bg-white: #2D3748;
+            --bg-card: #2D3748;
+            --border-color: #4A5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition-slow);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.75em;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.875rem;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.25em;
+            font-weight: 400;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.875rem;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(20, 191, 150, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-white);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1rem;
+        }
+
+        .btn-icon {
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .dark-mode .header {
+            background-color: rgba(45, 55, 72, 0.95);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 10px 16px 10px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            width: 280px;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(20, 191, 150, 0.1);
+            width: 320px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-lighter);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            padding: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .user-menu:hover .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-dropdown-item:hover {
+            background-color: var(--bg-color);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 24px;
+            height: 18px;
+            justify-content: space-between;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--text-color);
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .mobile-menu {
+            display: none;
+            background-color: var(--bg-white);
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mobile-nav-link {
+            padding: 12px 0;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 120px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .hero-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .hero-visual {
+            flex: 1;
+            position: relative;
+            height: 500px;
+        }
+
+        .floating-card {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float 6s ease-in-out infinite;
+            transition: var(--transition);
+        }
+
+        .floating-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .floating-card h3 {
+            font-size: 1rem;
+            margin: 12px 0 6px;
+        }
+
+        .floating-card p {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        .card-icon {
+            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-1 {
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .card-2 {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            animation-delay: 2s;
+        }
+
+        .card-3 {
+            bottom: 0;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Courses */
+        .courses {
+            background-color: var(--bg-color);
+        }
+
+        .course-categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .category {
+            background-color: var(--bg-white);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category:hover, .category.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .course-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .course-image {
+            height: 180px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.875rem;
+            overflow: hidden;
+        }
+
+        .course-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .math-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .science-bg {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .programming-bg {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .economics-bg {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .test-prep-bg {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .humanities-bg {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .course-level {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+            color: var(--text-color);
+        }
+
+        .course-content {
+            padding: 24px;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .course-description {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-lighter);
+            margin-bottom: 20px;
+        }
+
+        .course-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .course-link:hover {
+            gap: 12px;
+        }
+
+        .courses-cta {
+            text-align: center;
+        }
+
+        /* Features */
+        .features {
+            background-color: var(--bg-white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 40px 24px;
+            background-color: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            font-size: 32px;
+            transition: var(--transition);
+        }
+
+        .feature:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--bg-color);
+        }
+
+        .testimonial-slider {
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        .testimonial-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial {
+            min-width: 380px;
+            background-color: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .testimonial-content {
+            padding: 32px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 24px;
+            color: var(--text-color);
+            position: relative;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 80px;
+            color: var(--primary-light);
+            position: absolute;
+            top: -40px;
+            left: -10px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-size: 1.125rem;
+            margin-bottom: 4px;
+        }
+
+        .author-role {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .testimonial-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .testimonial-btn {
+            background: none;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--bg-white);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><circle fill="white" cx="500" cy="500" r="400"/></svg>');
+            background-size: cover;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-white);
+            color: var(--text-color);
+            padding: 80px 0 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .footer-description {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            font-size: 0.875rem;
+            max-width: 300px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+
+        .legal-link {
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .legal-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 0.875rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-lighter);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 40px 0;
+        }
+
+        .dashboard.active-page {
+            display: block;
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 16px;
+        }
+
+        .stat-card-title {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-card-change {
+            font-size: 0.875rem;
+            color: var(--success-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .progress-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: var(--bg-color);
+            transition: var(--transition);
+        }
+
+        .progress-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .progress-item-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+
+        .progress-item-content {
+            flex: 1;
+        }
+
+        .progress-item-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .progress-item-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-percent {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Course Player Styles */
+        .course-player {
+            display: none;
+            padding: 0;
+        }
+
+        .course-player.active-page {
+            display: block;
+        }
+
+        .player-header {
+            background: var(--bg-white);
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+        }
+
+        .player-container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        .player-sidebar {
+            width: 320px;
+            background: var(--bg-white);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .player-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            flex: 1;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-placeholder {
+            text-align: center;
+            color: white;
+        }
+
+        .video-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        .player-controls {
+            background: var(--bg-white);
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .module-list {
+            list-style: none;
+        }
+
+        .module-item {
+            margin-bottom: 16px;
+        }
+
+        .module-header {
+            padding: 12px 16px;
+            background: var(--bg-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .module-header:hover {
+            background: var(--primary-light);
+        }
+
+        .module-title {
+            font-weight: 600;
+        }
+
+        .lesson-list {
+            list-style: none;
+            margin-top: 8px;
+            padding-left: 16px;
+            display: none;
+        }
+
+        .module-item.active .lesson-list {
+            display: block;
+        }
+
+        .lesson-item {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lesson-item:hover {
+            background: var(--bg-color);
+        }
+
+        .lesson-item.active {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .lesson-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .lesson-item.active .lesson-icon {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lesson-item.completed .lesson-icon {
+            background: var(--success-color);
+            color: white;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .quiz-progress {
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .quiz-option {
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Community Styles */
+        .community {
+            display: none;
+            padding: 40px 0;
+        }
+
+        .community.active-page {
+            display: block;
+        }
+
+        .forum-container {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .forum-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .forum-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .forum-stat {
+            text-align: center;
+        }
+
+        .forum-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .forum-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .discussion-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .discussion-item {
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .discussion-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .discussion-header {
+            display: flex;
+            justify-content: between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .discussion-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .discussion-excerpt {
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .discussion-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            h2 {
+                font-size: 2.25rem;
+            }
+            
+            .hero-container {
+                gap: 40px;
+            }
+            
+            .hero-visual {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-visual {
+                width: 100%;
+                height: 300px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .search-input:focus {
+                width: 280px;
+            }
+
+            .player-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .player-sidebar {
+                width: 100%;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .header-actions {
+                margin-left: auto;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .mobile-menu.active {
+                display: block;
+            }
+            
+            .search-input {
+                width: 200px;
+            }
+            
+            .search-input:focus {
+                width: 200px;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .hero {
+                padding: 100px 0 80px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .course-categories {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 10px;
+            }
+            
+            .category {
+                white-space: nowrap;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                justify-content: center;
+            }
+
+            .testimonial {
+                min-width: 300px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial {
+                min-width: 280px;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .search-input {
+                width: 160px;
+            }
+            
+            .search-input:focus {
+                width: 160px;
+            }
+
+            .quiz-container {
+                padding: 24px;
+                margin: 24px auto;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary {
+            color: var(--primary-color);
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mt-0 {
+            margin-top: 0;
+        }
+
+        .active-page {
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>Cicada</span>
+            </div>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link" data-page="home">Cursos</a></li>
+                    <li><a href="#" class="nav-link" data-page="dashboard">Mi Aprendizaje</a></li>
+                    <li><a href="#" class="nav-link" data-page="community">Comunidad</a></li>
+                    <li><a href="#" class="nav-link">Para Educadores</a></li>
+                    <li><a href="#" class="nav-link">Recursos</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-box">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" placeholder="Buscar cursos..." class="search-input" id="searchInput">
+                </div>
+                
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <div class="auth-buttons" id="authButtons">
+                    <a href="#" class="btn btn-secondary" id="loginBtn">Iniciar sesión</a>
+                    <a href="#" class="btn btn-primary" id="registerBtn">Registrarse</a>
+                </div>
+                
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="user-dropdown">
+                        <a href="#" class="user-dropdown-item" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Mi Dashboard</span>
+                        </a>
+                        <a href="#" class="user-dropdown-item" data-page="profile">
+                            <i class="fas fa-user"></i>
+                            <span>Mi Perfil</span>
+                        </a>
+                        <a href="#" class="user-dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Configuración</span>
+                        </a>
+                        <a href="#" class="user-dropdown-item" data-page="achievements">
+                            <i class="fas fa-trophy"></i>
+                            <span>Logros</span>
+                        </a>
+                        <div class="user-dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar sesión</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="#" class="mobile-nav-link" data-page="home">Cursos</a></li>
+                <li><a href="#" class="mobile-nav-link" data-page="dashboard">Mi Aprendizaje</a></li>
+                <li><a href="#" class="mobile-nav-link" data-page="community">Comunidad</a></li>
+                <li><a href="#" class="mobile-nav-link">Para Educadores</a></li>
+                <li><a href="#" class="mobile-nav-link">Recursos</a></li>
+                <li><a href="#" class="mobile-nav-link" id="mobileLoginBtn">Iniciar sesión</a></li>
+                <li><a href="#" class="mobile-nav-link" id="mobileRegisterBtn">Registrarse</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <main id="home" class="active-page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Aprende sin límites, crea sin barreras</h1>
+                    <p class="hero-description">Cicada es la plataforma de aprendizaje en línea que democratiza la educación de calidad. Cursos creados por expertos, ejercicios interactivos y una comunidad global de estudiantes.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary btn-large" id="heroRegisterBtn">
+                            <i class="fas fa-rocket"></i>
+                            Comenzar ahora
+                        </a>
+                        <a href="#" class="btn btn-secondary btn-large">
+                            <i class="fas fa-play-circle"></i>
+                            Ver demostración
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">10K+</div>
+                            <div class="hero-stat-label">Cursos activos</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">2M+</div>
+                            <div class="hero-stat-label">Estudiantes</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">98%</div>
+                            <div class="hero-stat-label">Tasa de satisfacción</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <div class="card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Matemáticas</h3>
+                        <p>Desde álgebra hasta cálculo avanzado</p>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div class="card-icon">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3>Ciencias</h3>
+                        <p>Biología, química, física y más</p>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Programación</h3>
+                        <p>Python, JavaScript, desarrollo web</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cursos Section -->
+        <section class="courses">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Explora nuestros cursos</h2>
+                    <p class="section-description">Descubre una amplia variedad de cursos diseñados por expertos en la industria y educadores de clase mundial.</p>
+                </div>
+                
+                <div class="course-categories">
+                    <div class="category active" data-category="all">Todos los cursos</div>
+                    <div class="category" data-category="math">Matemáticas</div>
+                    <div class="category" data-category="science">Ciencias</div>
+                    <div class="category" data-category="programming">Programación</div>
+                    <div class="category" data-category="economics">Economía</div>
+                    <div class="category" data-category="humanities">Humanidades</div>
+                    <div class="category" data-category="test-prep">Preparación de exámenes</div>
+                </div>
+                
+                <div class="course-grid" id="courseGrid">
+                    <!-- Courses will be populated by JavaScript -->
+                </div>
+                
+                <div class="courses-cta">
+                    <a href="#" class="btn btn-outline btn-large">
+                        <i class="fas fa-book-open"></i>
+                        Explorar todos los cursos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Por qué elegir Cicada</h2>
+                    <p class="section-description">Una experiencia de aprendizaje personalizada diseñada para ayudarte a alcanzar tus metas educativas.</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="feature-title">Aprendizaje personalizado</h3>
+                        <p class="feature-description">Recibe recomendaciones de contenido basadas en tu progreso, intereses y objetivos de aprendizaje.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="feature-title">Contenido interactivo</h3>
+                        <p class="feature-description">Aprende con ejercicios prácticos, proyectos reales y evaluaciones que refuerzan tu conocimiento.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Seguimiento de progreso</h3>
+                        <p class="feature-description">Monitorea tu avance con dashboards detallados y métricas que te ayudan a mantener la motivación.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">Comunidad global</h3>
+                        <p class="feature-description">Conecta con estudiantes de todo el mundo, comparte conocimientos y resuelve dudas en grupo.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Aprendizaje móvil</h3>
+                        <p class="feature-description">Accede a tus cursos desde cualquier dispositivo y continúa aprendiendo dondequiera que estés.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3 class="feature-title">Certificaciones</h3>
+                        <p class="feature-description">Obtén certificados reconocidos que validan tus habilidades y conocimientos adquiridos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Lo que dicen nuestros estudiantes</h2>
+                    <p class="section-description">Historias de éxito de nuestra comunidad global de aprendices.</p>
+                </div>
+                
+                <div class="testimonial-slider" id="testimonialSlider">
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">Gracias a Cicada pude cambiar mi carrera profesional. Los cursos de programación me dieron las habilidades necesarias para conseguir mi primer trabajo como desarrollador web.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">AM</div>
+                                <div class="author-info">
+                                    <h4 class="author-name">Ana Martínez</h4>
+                                    <p class="author-role">Desarrolladora Frontend en TechCorp</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">Como profesor, Cicada me ha proporcionado herramientas invaluable para complementar mis clases. Mis estudiantes han mejorado significativamente sus calificaciones.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">CR</div>
+                                <div class="author-info">
+                                    <h4 class="author-name">Carlos Rodríguez</h4>
+                                    <p class="author-role">Profesor de Matemáticas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">Estaba teniendo dificultades con cálculo en la universidad, pero los videos explicativos y ejercicios de Cicada me ayudaron a entender conceptos complejos de manera sencilla.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">LG</div>
+                                <div class="author-info">
+                                    <h4 class="author-name">Laura González</h4>
+                                    <p class="author-role">Estudiante de Ingeniería</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">La flexibilidad de aprender a mi propio ritmo mientras trabajo tiempo completo ha sido fundamental para mi desarrollo profesional. Cicada ha superado todas mis expectativas.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">MP</div>
+                                <div class="author-info">
+                                    <h4 class="author-name">Miguel Pérez</h4>
+                                    <p class="author-role">Analista de Datos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-controls">
+                    <button class="testimonial-btn" id="testimonialPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="testimonial-btn" id="testimonialNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Comienza tu viaje de aprendizaje hoy</h2>
+                    <p class="cta-description">Únete a millones de estudiantes alrededor del mundo y accede a educación de calidad sin importar tu ubicación o situación económica.</p>
+                    <a href="#" class="btn btn-primary btn-large" id="ctaRegisterBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Crear cuenta gratuita
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dashboard Page -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Mi Dashboard</h1>
+                <p class="dashboard-subtitle">Bienvenido de nuevo, <span id="userName">Estudiante</span>. Continúa tu viaje de aprendizaje.</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <h3 class="stat-card-title">Cursos en Progreso</h3>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value" id="coursesInProgress">3</div>
+                    <div class="stat-card-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+1 desde la semana pasada</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <h3 class="stat-card-title">Horas de Estudio</h3>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value" id="studyHours">15.5</div>
+                    <div class="stat-card-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+3.2 esta semana</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <h3 class="stat-card-title">Logros Obtenidos</h3>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value" id="achievementsCount">7</div>
+                    <div class="stat-card-change">
+                        <i class="fas fa-star"></i>
+                        <span>2 nuevos esta semana</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <h3 class="stat-card-title">Progreso General</h3>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value" id="overallProgress">68%</div>
+                    <div class="stat-card-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+5% esta semana</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h2 class="progress-title">Continuar Aprendiendo</h2>
+                    <a href="#" class="btn btn-outline">Ver todos los cursos</a>
+                </div>
+                <div class="progress-grid" id="continueLearningGrid">
+                    <!-- Progress items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h2 class="progress-title">Próximas Actividades</h2>
+                    <a href="#" class="btn btn-outline">Ver calendario</a>
+                </div>
+                <div class="progress-grid" id="upcomingActivitiesGrid">
+                    <!-- Upcoming activities will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Player Page -->
+    <section id="course-player" class="course-player">
+        <div class="player-header">
+            <div class="container">
+                <div class="course-breadcrumb">
+                    <a href="#" data-page="home">Cursos</a>
+                    <span>></span>
+                    <a href="#" id="courseCategoryLink">Matemáticas</a>
+                    <span>></span>
+                    <span id="currentCourseTitle">Álgebra Básica</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-sidebar">
+                <div class="module-list" id="moduleList">
+                    <!-- Modules will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="player-main">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Reproductor de video</p>
+                        <p class="video-title" id="currentLessonTitle">Selecciona una lección para comenzar</p>
+                    </div>
+                </div>
+                
+                <div class="player-controls">
+                    <div class="lesson-navigation">
+                        <button class="btn btn-outline" id="prevLessonBtn">
+                            <i class="fas fa-arrow-left"></i>
+                            Lección Anterior
+                        </button>
+                        <button class="btn btn-primary" id="completeLessonBtn">
+                            <i class="fas fa-check"></i>
+                            Marcar como Completado
+                        </button>
+                        <button class="btn btn-outline" id="nextLessonBtn">
+                            Siguiente Lección
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Page -->
+    <section id="community" class="community">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Comunidad Cicada</h1>
+                <p class="dashboard-subtitle">Conecta con otros estudiantes, comparte conocimientos y resuelve dudas.</p>
+            </div>
+            
+            <div class="forum-container">
+                <div class="forum-header">
+                    <h2>Foro de Discusión</h2>
+                    <button class="btn btn-primary" id="newDiscussionBtn">
+                        <i class="fas fa-plus"></i>
+                        Nueva Discusión
+                    </button>
+                </div>
+                
+                <div class="forum-stats">
+                    <div class="forum-stat">
+                        <div class="forum-stat-value" id="totalDiscussions">128</div>
+                        <div class="forum-stat-label">Discusiones</div>
+                    </div>
+                    <div class="forum-stat">
+                        <div class="forum-stat-value" id="totalReplies">542</div>
+                        <div class="forum-stat-label">Respuestas</div>
+                    </div>
+                    <div class="forum-stat">
+                        <div class="forum-stat-value" id="activeUsers">89</div>
+                        <div class="forum-stat-label">Usuarios Activos</div>
+                    </div>
+                </div>
+                
+                <div class="discussion-list" id="discussionList">
+                    <!-- Discussions will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Page -->
+    <section id="quiz" class="quiz-container hidden">
+        <div class="quiz-header">
+            <h2>Evaluación del Curso</h2>
+            <div class="quiz-progress">
+                <div class="quiz-progress-fill" id="quizProgressFill" style="width: 0%"></div>
+            </div>
+            <p>Pregunta <span id="currentQuestion">1</span> de <span id="totalQuestions">5</span></p>
+        </div>
+        
+        <div class="quiz-question" id="quizQuestion">
+            <!-- Question will be populated by JavaScript -->
+        </div>
+        
+        <div class="quiz-options" id="quizOptions">
+            <!-- Options will be populated by JavaScript -->
+        </div>
+        
+        <div class="quiz-navigation">
+            <button class="btn btn-outline" id="prevQuestionBtn" disabled>
+                <i class="fas fa-arrow-left"></i>
+                Anterior
+            </button>
+            <button class="btn btn-primary" id="nextQuestionBtn">
+                Siguiente
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Cicada</span>
+                    </div>
+                    <p class="footer-description">Democratizando el acceso a educación de calidad para cualquier persona, en cualquier lugar del mundo.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Cursos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Matemáticas</a></li>
+                        <li><a href="#" class="footer-link">Ciencias</a></li>
+                        <li><a href="#" class="footer-link">Programación</a></li>
+                        <li><a href="#" class="footer-link">Humanidades</a></li>
+                        <li><a href="#" class="footer-link">Economía y Finanzas</a></li>
+                        <li><a href="#" class="footer-link">Preparación de exámenes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Recursos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Blog educativo</a></li>
+                        <li><a href="#" class="footer-link">Guías de estudio</a></li>
+                        <li><a href="#" class="footer-link">Para educadores</a></li>
+                        <li><a href="#" class="footer-link">Para padres</a></li>
+                        <li><a href="#" class="footer-link">Centro de ayuda</a></li>
+                        <li><a href="#" class="footer-link">Comunidad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Compañía</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Sobre nosotros</a></li>
+                        <li><a href="#" class="footer-link">Nuestro equipo</a></li>
+                        <li><a href="#" class="footer-link">Carreras</a></li>
+                        <li><a href="#" class="footer-link">Socios</a></li>
+                        <li><a href="#" class="footer-link">Prensa</a></li>
+                        <li><a href="#" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 Cicada Learning Platform. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#" class="legal-link">Términos de servicio</a>
+                    <a href="#" class="legal-link">Política de privacidad</a>
+                    <a href="#" class="legal-link">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals will be added here via JavaScript -->
+
+    <script>
+        // Datos de ejemplo para la aplicación
+        const coursesData = [
+            {
+                id: 1,
+                title: "Álgebra Básica",
+                description: "Domina los fundamentos del álgebra: ecuaciones, funciones, gráficas y resolución de problemas.",
+                category: "math",
+                level: "Principiante",
+                duration: "15 horas",
+                rating: 4.8,
+                students: 12450,
+                image: "math-bg",
+                instructor: "Dr. Roberto Sánchez",
+                price: "Gratis",
+                featured: true,
+                progress: 65,
+                enrolled: true
+            },
+            {
+                id: 2,
+                title: "Introducción a la Programación con Python",
+                description: "Aprende los conceptos fundamentales de programación utilizando Python como primer lenguaje.",
+                category: "programming",
+                level: "Principiante",
+                duration: "20 horas",
+                rating: 4.9,
+                students: 18760,
+                image: "programming-bg",
+                instructor: "Ing. María López",
+                price: "Gratis",
+                featured: true,
+                progress: 30,
+                enrolled: true
+            },
+            {
+                id: 3,
+                title: "Biología Molecular",
+                description: "Explora los misterios de la vida a nivel molecular: ADN, ARN, proteínas y procesos celulares.",
+                category: "science",
+                level: "Intermedio",
+                duration: "18 horas",
+                rating: 4.7,
+                students: 8450,
+                image: "science-bg",
+                instructor: "Dra. Elena Torres",
+                price: "Gratis",
+                featured: false,
+                progress: 0,
+                enrolled: false
+            },
+            {
+                id: 4,
+                title: "Microeconomía Aplicada",
+                description: "Comprende los principios de oferta, demanda, mercados y toma de decisiones económicas.",
+                category: "economics",
+                level: "Intermedio",
+                duration: "16 horas",
+                rating: 4.6,
+                students: 9200,
+                image: "economics-bg",
+                instructor: "Dr. Carlos Méndez",
+                price: "Gratis",
+                featured: false,
+                progress: 0,
+                enrolled: false
+            },
+            {
+                id: 5,
+                title: "Historia del Arte Moderno",
+                description: "Recorre los movimientos artísticos desde el impresionismo hasta el arte contemporáneo.",
+                category: "humanities",
+                level: "Principiante",
+                duration: "12 horas",
+                rating: 4.5,
+                students: 6100,
+                image: "humanities-bg",
+                instructor: "Lic. Ana Rodríguez",
+                price: "Gratis",
+                featured: false,
+                progress: 0,
+                enrolled: false
+            },
+            {
+                id: 6,
+                title: "Preparación SAT Matemáticas",
+                description: "Domina las secciones de matemáticas del examen SAT con estrategias y práctica intensiva.",
+                category: "test-prep",
+                level: "Avanzado",
+                duration: "25 horas",
+                rating: 4.8,
+                students: 11200,
+                image: "test-prep-bg",
+                instructor: "Prof. Javier Morales",
+                price: "Gratis",
+                featured: true,
+                progress: 0,
+                enrolled: false
+            }
+        ];
+
+        const courseContent = {
+            1: {
+                title: "Álgebra Básica",
+                category: "Matemáticas",
+                instructor: "Dr. Roberto Sánchez",
+                modules: [
+                    {
+                        id: 1,
+                        title: "Introducción al Álgebra",
+                        lessons: [
+                            { id: 1, title: "¿Qué es el Álgebra?", duration: "15 min", completed: true, type: "video" },
+                            { id: 2, title: "Variables y Expresiones", duration: "20 min", completed: true, type: "video" },
+                            { id: 3, title: "Ecuaciones Básicas", duration: "25 min", completed: false, type: "video" },
+                            { id: 4, title: "Ejercicios Prácticos", duration: "30 min", completed: false, type: "quiz" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: "Ecuaciones Lineales",
+                        lessons: [
+                            { id: 5, title: "Ecuaciones de Primer Grado", duration: "20 min", completed: false, type: "video" },
+                            { id: 6, title: "Sistemas de Ecuaciones", duration: "25 min", completed: false, type: "video" },
+                            { id: 7, title: "Problemas de Aplicación", duration: "30 min", completed: false, type: "practice" }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        title: "Funciones y Gráficas",
+                        lessons: [
+                            { id: 8, title: "Concepto de Función", duration: "20 min", completed: false, type: "video" },
+                            { id: 9, title: "Gráficas de Funciones Lineales", duration: "25 min", completed: false, type: "video" },
+                            { id: 10, title: "Pendiente e Intercepto", duration: "30 min", completed: false, type: "video" }
+                        ]
+                    }
+                ]
+            },
+            2: {
+                title: "Introducción a la Programación con Python",
+                category: "Programación",
+                instructor: "Ing. María López",
+                modules: [
+                    {
+                        id: 1,
+                        title: "Fundamentos de Programación",
+                        lessons: [
+                            { id: 1, title: "Introducción a Python", duration: "20 min", completed: true, type: "video" },
+                            { id: 2, title: "Variables y Tipos de Datos", duration: "25 min", completed: true, type: "video" },
+                            { id: 3, title: "Operadores y Expresiones", duration: "30 min", completed: false, type: "video" },
+                            { id: 4, title: "Ejercicios de Práctica", duration: "35 min", completed: false, type: "practice" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: "Estructuras de Control",
+                        lessons: [
+                            { id: 5, title: "Condicionales if-else", duration: "25 min", completed: false, type: "video" },
+                            { id: 6, title: "Bucles for y while", duration: "30 min", completed: false, type: "video" },
+                            { id: 7, title: "Ejercicios con Estructuras", duration: "40 min", completed: false, type: "practice" }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const quizData = {
+            1: [
+                {
+                    question: "¿Qué es una variable en álgebra?",
+                    options: [
+                        "Un número fijo que no cambia",
+                        "Un símbolo que representa un valor desconocido",
+                        "El resultado de una ecuación",
+                        "Un tipo de operación matemática"
+                    ],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál es la solución de la ecuación 2x + 5 = 11?",
+                    options: ["x = 2", "x = 3", "x = 4", "x = 5"],
+                    correct: 1
+                },
+                {
+                    question: "¿Qué representa la pendiente en una función lineal?",
+                    options: [
+                        "El punto donde la línea cruza el eje Y",
+                        "La tasa de cambio de la función",
+                        "El valor máximo de la función",
+                        "El punto donde la línea cruza el eje X"
+                    ],
+                    correct: 1
+                }
+            ]
+        };
+
+        const communityData = {
+            discussions: [
+                {
+                    id: 1,
+                    title: "¿Cómo resolver ecuaciones cuadráticas?",
+                    author: "Carlos M.",
+                    course: "Álgebra Básica",
+                    replies: 15,
+                    views: 120,
+                    lastActivity: "2 horas ago",
+                    excerpt: "Estoy teniendo dificultades para entender cómo aplicar la fórmula general en ecuaciones cuadráticas. ¿Alguien puede explicarlo con un ejemplo?"
+                },
+                {
+                    id: 2,
+                    title: "Proyecto final de Python - Ideas",
+                    author: "Ana R.",
+                    course: "Programación con Python",
+                    replies: 8,
+                    views: 85,
+                    lastActivity: "5 horas ago",
+                    excerpt: "Necesito ideas para mi proyecto final del curso de Python. ¿Qué tipo de proyecto recomiendan para alguien que está comenzando?"
+                },
+                {
+                    id: 3,
+                    title: "Dudas sobre funciones en matemáticas",
+                    author: "Luis G.",
+                    course: "Álgebra Básica",
+                    replies: 12,
+                    views: 95,
+                    lastActivity: "1 día ago",
+                    excerpt: "No entiendo bien la diferencia entre dominio y rango de una función. ¿Alguien puede explicarlo con ejemplos sencillos?"
+                }
+            ]
+        };
+
+        // Estado de la aplicación
+        let currentUser = null;
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+        let currentCoursePage = 1;
+        let currentCourse = null;
+        let currentLesson = null;
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        const coursesPerPage = 6;
+
+        // Elementos del DOM
+        const homePage = document.getElementById('home');
+        const dashboardPage = document.getElementById('dashboard');
+        const coursePlayerPage = document.getElementById('course-player');
+        const communityPage = document.getElementById('community');
+        const quizPage = document.getElementById('quiz');
+        const themeToggle = document.getElementById('themeToggle');
+        const courseGrid = document.getElementById('courseGrid');
+        const continueLearningGrid = document.getElementById('continueLearningGrid');
+        const upcomingActivitiesGrid = document.getElementById('upcomingActivitiesGrid');
+        const moduleList = document.getElementById('moduleList');
+        const discussionList = document.getElementById('discussionList');
+        const searchInput = document.getElementById('searchInput');
+        const testimonialSlider = document.getElementById('testimonialSlider');
+        const testimonialPrev = document.getElementById('testimonialPrev');
+        const testimonialNext = document.getElementById('testimonialNext');
+        const toastContainer = document.getElementById('toastContainer');
+        const authButtons = document.getElementById('authButtons');
+        const userMenu = document.getElementById('userMenu');
+        const userAvatar = document.getElementById('userAvatar');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const prevLessonBtn = document.getElementById('prevLessonBtn');
+        const nextLessonBtn = document.getElementById('nextLessonBtn');
+        const completeLessonBtn = document.getElementById('completeLessonBtn');
+        const currentLessonTitle = document.getElementById('currentLessonTitle');
+        const currentCourseTitle = document.getElementById('currentCourseTitle');
+        const courseCategoryLink = document.getElementById('courseCategoryLink');
+        const quizProgressFill = document.getElementById('quizProgressFill');
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizOptions = document.getElementById('quizOptions');
+        const currentQuestion = document.getElementById('currentQuestion');
+        const totalQuestions = document.getElementById('totalQuestions');
+        const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const newDiscussionBtn = document.getElementById('newDiscussionBtn');
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aplicar modo oscuro si está activado
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Cargar datos iniciales
+            renderCourses();
+            renderDashboard();
+            renderCommunity();
+            
+            // Configurar event listeners
+            setupEventListeners();
+            
+            // Inicializar carrusel de testimonios
+            initTestimonialSlider();
+            
+            // Verificar si hay un usuario logueado
+            checkUserStatus();
+            
+            // Mostrar toast de bienvenida
+            setTimeout(() => {
+                showToast('Bienvenido a Cicada - Tu plataforma de aprendizaje', 'success');
+            }, 1000);
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Toggle de modo oscuro
+            themeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Navegación
+            document.querySelectorAll('[data-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    navigateToPage(page);
+                });
+            });
+
+            // Filtrado de cursos
+            document.querySelectorAll('.category').forEach(category => {
+                category.addEventListener('click', function() {
+                    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    const categoryFilter = this.getAttribute('data-category');
+                    filterCourses(categoryFilter);
+                });
+            });
+
+            // Búsqueda
+            searchInput.addEventListener('input', function() {
+                searchCourses(this.value);
+            });
+
+            // Autenticación
+            document.getElementById('loginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginModal();
+            });
+
+            document.getElementById('mobileLoginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginModal();
+                closeMobileMenu();
+            });
+
+            document.getElementById('registerBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterModal();
+            });
+
+            document.getElementById('mobileRegisterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterModal();
+                closeMobileMenu();
+            });
+
+            document.getElementById('heroRegisterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterModal();
+            });
+
+            document.getElementById('ctaRegisterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterModal();
+            });
+
+            // Cerrar sesión
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogout();
+            });
+
+            // Menú móvil
+            document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+                toggleMobileMenu();
+            });
+
+            // Carrusel de testimonios
+            testimonialPrev.addEventListener('click', scrollTestimonialsPrev);
+            testimonialNext.addEventListener('click', scrollTestimonialsNext);
+
+            // Navegación de lecciones
+            prevLessonBtn.addEventListener('click', navigateToPrevLesson);
+            nextLessonBtn.addEventListener('click', navigateToNextLesson);
+            completeLessonBtn.addEventListener('click', completeCurrentLesson);
+
+            // Navegación de quiz
+            prevQuestionBtn.addEventListener('click', navigateToPrevQuestion);
+            nextQuestionBtn.addEventListener('click', navigateToNextQuestion);
+
+            // Comunidad
+            newDiscussionBtn.addEventListener('click', showNewDiscussionModal);
+        }
+
+        // Funciones de renderizado
+        function renderCourses() {
+            courseGrid.innerHTML = '';
+            
+            // Calcular cursos a mostrar según la página actual
+            const startIndex = (currentCoursePage - 1) * coursesPerPage;
+            const endIndex = startIndex + coursesPerPage;
+            const coursesToShow = coursesData.slice(startIndex, endIndex);
+            
+            coursesToShow.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.setAttribute('data-category', course.category);
+                
+                courseCard.innerHTML = `
+                    <div class="course-image ${course.image}">
+                        <div class="course-level">${course.level}</div>
+                        ${course.featured ? '<div class="course-featured">Destacado</div>' : ''}
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">${course.title}</h3>
+                        <p class="course-description">${course.description}</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <i class="fas fa-user"></i>
+                                ${course.instructor}
+                            </div>
+                            <div class="course-price">${course.price}</div>
+                        </div>
+                        <div class="course-stats">
+                            <span class="rating"><i class="fas fa-star"></i> ${course.rating}</span>
+                            <span class="students"><i class="fas fa-users"></i> ${(course.students / 1000).toFixed(1)}K</span>
+                            <span class="duration"><i class="fas fa-clock"></i> ${course.duration}</span>
+                        </div>
+                        <a href="#" class="course-link" data-course-id="${course.id}">
+                            ${currentUser && course.enrolled ? 'Continuar' : 'Comenzar curso'} 
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+                
+                courseGrid.appendChild(courseCard);
+            });
+            
+            // Agregar event listeners a los enlaces de curso
+            document.querySelectorAll('.course-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const courseId = parseInt(this.getAttribute('data-course-id'));
+                    if (!currentUser) {
+                        showLoginModal();
+                        showToast('Inicia sesión para acceder a este curso', 'info');
+                    } else {
+                        openCourse(courseId);
+                    }
+                });
+            });
+            
+            // Renderizar controles de paginación si es necesario
+            renderPaginationControls();
+        }
+
+        function renderDashboard() {
+            // Actualizar estadísticas
+            const enrolledCourses = coursesData.filter(course => course.enrolled);
+            document.getElementById('coursesInProgress').textContent = enrolledCourses.length;
+            document.getElementById('studyHours').textContent = '15.5';
+            document.getElementById('achievementsCount').textContent = '7';
+            document.getElementById('overallProgress').textContent = '68%';
+            document.getElementById('userName').textContent = currentUser ? currentUser.name : 'Estudiante';
+            
+            // Renderizar cursos en progreso
+            continueLearningGrid.innerHTML = '';
+            enrolledCourses.forEach(course => {
+                const progressItem = document.createElement('div');
+                progressItem.className = 'progress-item';
+                progressItem.innerHTML = `
+                    <div class="progress-item-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="progress-item-content">
+                        <h4 class="progress-item-title">${course.title}</h4>
+                        <p class="progress-item-subtitle">${course.instructor} • ${course.duration}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${course.progress}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-percent">${course.progress}%</div>
+                `;
+                
+                progressItem.addEventListener('click', () => {
+                    openCourse(course.id);
+                });
+                
+                continueLearningGrid.appendChild(progressItem);
+            });
+            
+            // Renderizar actividades próximas
+            upcomingActivitiesGrid.innerHTML = '';
+            const upcomingActivities = [
+                { title: 'Quiz de Álgebra', course: 'Álgebra Básica', date: 'Mañana', type: 'quiz' },
+                { title: 'Proyecto de Programación', course: 'Programación con Python', date: 'En 3 días', type: 'project' },
+                { title: 'Foro de Discusión', course: 'Comunidad', date: 'Esta semana', type: 'discussion' }
+            ];
+            
+            upcomingActivities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'progress-item';
+                
+                let icon = 'fas fa-question';
+                if (activity.type === 'quiz') icon = 'fas fa-clipboard-list';
+                if (activity.type === 'project') icon = 'fas fa-laptop-code';
+                if (activity.type === 'discussion') icon = 'fas fa-comments';
+                
+                activityItem.innerHTML = `
+                    <div class="progress-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="progress-item-content">
+                        <h4 class="progress-item-title">${activity.title}</h4>
+                        <p class="progress-item-subtitle">${activity.course}</p>
+                        <span class="progress-item-date">${activity.date}</span>
+                    </div>
+                `;
+                
+                upcomingActivitiesGrid.appendChild(activityItem);
+            });
+        }
+
+        function renderCoursePlayer() {
+            if (!currentCourse) return;
+            
+            const course = courseContent[currentCourse];
+            if (!course) return;
+            
+            // Actualizar información del curso
+            currentCourseTitle.textContent = course.title;
+            courseCategoryLink.textContent = course.category;
+            
+            // Renderizar módulos y lecciones
+            moduleList.innerHTML = '';
+            course.modules.forEach(module => {
+                const moduleItem = document.createElement('div');
+                moduleItem.className = 'module-item';
+                
+                let lessonsHTML = '';
+                module.lessons.forEach(lesson => {
+                    const lessonIcon = getLessonIcon(lesson.type);
+                    const completedClass = lesson.completed ? 'completed' : '';
+                    const activeClass = currentLesson && currentLesson.lessonId === lesson.id ? 'active' : '';
+                    
+                    lessonsHTML += `
+                        <li class="lesson-item ${completedClass} ${activeClass}" data-lesson-id="${lesson.id}">
+                            <div class="lesson-icon">
+                                <i class="${lessonIcon}"></i>
+                            </div>
+                            <div class="lesson-info">
+                                <div class="lesson-title">${lesson.title}</div>
+                                <div class="lesson-duration">${lesson.duration}</div>
+                            </div>
+                        </li>
+                    `;
+                });
+                
+                moduleItem.innerHTML = `
+                    <div class="module-header">
+                        <h3 class="module-title">${module.title}</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="lesson-list">
+                        ${lessonsHTML}
+                    </ul>
+                `;
+                
+                moduleList.appendChild(moduleItem);
+                
+                // Event listeners para módulos
+                const moduleHeader = moduleItem.querySelector('.module-header');
+                moduleHeader.addEventListener('click', () => {
+                    moduleItem.classList.toggle('active');
+                });
+                
+                // Event listeners para lecciones
+                moduleItem.querySelectorAll('.lesson-item').forEach(lessonItem => {
+                    lessonItem.addEventListener('click', function() {
+                        const lessonId = parseInt(this.getAttribute('data-lesson-id'));
+                        openLesson(module.id, lessonId);
+                    });
+                });
+            });
+            
+            // Abrir la primera lección si no hay una lección actual
+            if (!currentLesson && course.modules.length > 0 && course.modules[0].lessons.length > 0) {
+                openLesson(course.modules[0].id, course.modules[0].lessons[0].id);
+            }
+        }
+
+        function renderCommunity() {
+            discussionList.innerHTML = '';
+            
+            communityData.discussions.forEach(discussion => {
+                const discussionItem = document.createElement('div');
+                discussionItem.className = 'discussion-item';
+                
+                discussionItem.innerHTML = `
+                    <div class="discussion-header">
+                        <div>
+                            <h3 class="discussion-title">${discussion.title}</h3>
+                            <div class="discussion-meta">
+                                <span>Por ${discussion.author}</span>
+                                <span>En ${discussion.course}</span>
+                                <span>${discussion.lastActivity}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="discussion-excerpt">${discussion.excerpt}</p>
+                    <div class="discussion-stats">
+                        <span><i class="fas fa-comment"></i> ${discussion.replies} respuestas</span>
+                        <span><i class="fas fa-eye"></i> ${discussion.views} vistas</span>
+                    </div>
+                `;
+                
+                discussionList.appendChild(discussionItem);
+            });
+            
+            // Actualizar estadísticas
+            document.getElementById('totalDiscussions').textContent = communityData.discussions.length;
+            document.getElementById('totalReplies').textContent = communityData.discussions.reduce((sum, d) => sum + d.replies, 0);
+            document.getElementById('activeUsers').textContent = '89';
+        }
+
+        function renderQuiz() {
+            if (!currentQuiz) return;
+            
+            const questions = quizData[currentQuiz];
+            if (!questions || questions.length === 0) return;
+            
+            // Actualizar información del quiz
+            totalQuestions.textContent = questions.length;
+            currentQuestion.textContent = currentQuestionIndex + 1;
+            
+            // Actualizar progreso
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            quizProgressFill.style.width = `${progress}%`;
+            
+            // Renderizar pregunta actual
+            const currentQ = questions[currentQuestionIndex];
+            quizQuestion.textContent = currentQ.question;
+            
+            // Renderizar opciones
+            quizOptions.innerHTML = '';
+            currentQ.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    selectAnswer(index);
+                });
+                quizOptions.appendChild(optionElement);
+            });
+            
+            // Actualizar botones de navegación
+            prevQuestionBtn.disabled = currentQuestionIndex === 0;
+            nextQuestionBtn.textContent = currentQuestionIndex === questions.length - 1 ? 'Finalizar' : 'Siguiente';
+        }
+
+        // Funciones de navegación
+        function navigateToPage(page) {
+            // Ocultar todas las páginas
+            document.querySelectorAll('.active-page').forEach(el => {
+                el.classList.remove('active-page');
+            });
+            
+            // Mostrar la página seleccionada
+            if (page === 'home') {
+                homePage.classList.add('active-page');
+            } else if (page === 'dashboard') {
+                if (currentUser) {
+                    dashboardPage.classList.add('active-page');
+                    renderDashboard();
+                } else {
+                    showLoginModal();
+                    showToast('Inicia sesión para acceder a tu dashboard', 'info');
+                }
+            } else if (page === 'community') {
+                if (currentUser) {
+                    communityPage.classList.add('active-page');
+                } else {
+                    showLoginModal();
+                    showToast('Inicia sesión para acceder a la comunidad', 'info');
+                }
+            }
+        }
+
+        function openCourse(courseId) {
+            if (!currentUser) {
+                showLoginModal();
+                return;
+            }
+            
+            currentCourse = courseId;
+            
+            // Enroll user in course if not already enrolled
+            const courseIndex = coursesData.findIndex(c => c.id === courseId);
+            if (courseIndex !== -1 && !coursesData[courseIndex].enrolled) {
+                coursesData[courseIndex].enrolled = true;
+                coursesData[courseIndex].progress = 0;
+                showToast(`Te has inscrito en el curso: ${coursesData[courseIndex].title}`, 'success');
+            }
+            
+            // Navegar al reproductor del curso
+            homePage.classList.remove('active-page');
+            dashboardPage.classList.remove('active-page');
+            communityPage.classList.remove('active-page');
+            coursePlayerPage.classList.add('active-page');
+            
+            // Renderizar el reproductor
+            renderCoursePlayer();
+        }
+
+        function openLesson(moduleId, lessonId) {
+            if (!currentCourse) return;
+            
+            const course = courseContent[currentCourse];
+            const module = course.modules.find(m => m.id === moduleId);
+            const lesson = module.lessons.find(l => l.id === lessonId);
+            
+            if (!lesson) return;
+            
+            currentLesson = { moduleId, lessonId };
+            
+            // Actualizar interfaz
+            currentLessonTitle.textContent = lesson.title;
+            
+            // Actualizar estado activo en la lista de lecciones
+            document.querySelectorAll('.lesson-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeLesson = document.querySelector(`.lesson-item[data-lesson-id="${lessonId}"]`);
+            if (activeLesson) {
+                activeLesson.classList.add('active');
+            }
+            
+            // Expandir el módulo activo
+            document.querySelectorAll('.module-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeModule = document.querySelector(`.module-item:nth-child(${moduleId})`);
+            if (activeModule) {
+                activeModule.classList.add('active');
+            }
+            
+            // Mostrar quiz si la lección es un quiz
+            if (lesson.type === 'quiz') {
+                startQuiz(currentCourse);
+            }
+        }
+
+        function startQuiz(courseId) {
+            currentQuiz = courseId;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            
+            // Mostrar el quiz
+            quizPage.classList.remove('hidden');
+            renderQuiz();
+        }
+
+        // Funciones de autenticación
+        function showLoginModal() {
+            // Crear modal de login
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'loginModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="background: var(--bg-white); border-radius: var(--radius-xl); padding: 32px; max-width: 440px; width: 90%; box-shadow: var(--shadow-xl);">
+                    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h3 style="margin: 0;">Iniciar sesión</h3>
+                        <button class="modal-close" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-lighter);">&times;</button>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Correo electrónico</label>
+                            <input type="email" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Contraseña</label>
+                            <input type="password" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 16px;">
+                            <span class="btn-text">Iniciar sesión</span>
+                        </button>
+                        <div style="text-align: center;">
+                            <p style="margin: 0; font-size: 0.875rem;">¿No tienes una cuenta? <a href="#" id="showRegisterFromLogin" style="color: var(--primary-color); font-weight: 500;">Regístrate</a></p>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Event listeners para el modal
+            modal.querySelector('.modal-close').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            modal.querySelector('#loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleLogin();
+            });
+            
+            modal.querySelector('#showRegisterFromLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.body.removeChild(modal);
+                showRegisterModal();
+            });
+        }
+
+        function showRegisterModal() {
+            // Crear modal de registro
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'registerModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="background: var(--bg-white); border-radius: var(--radius-xl); padding: 32px; max-width: 440px; width: 90%; box-shadow: var(--shadow-xl);">
+                    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h3 style="margin: 0;">Crear cuenta</h3>
+                        <button class="modal-close" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-lighter);">&times;</button>
+                    </div>
+                    <form id="registerForm">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Nombre completo</label>
+                            <input type="text" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Correo electrónico</label>
+                            <input type="email" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Contraseña</label>
+                            <input type="password" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Confirmar contraseña</label>
+                            <input type="password" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-color); color: var(--text-color);">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 16px;">
+                            <span class="btn-text">Crear cuenta</span>
+                        </button>
+                        <div style="text-align: center;">
+                            <p style="margin: 0; font-size: 0.875rem;">¿Ya tienes una cuenta? <a href="#" id="showLoginFromRegister" style="color: var(--primary-color); font-weight: 500;">Inicia sesión</a></p>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Event listeners para el modal
+            modal.querySelector('.modal-close').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            modal.querySelector('#registerForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleRegister();
+            });
+            
+            modal.querySelector('#showLoginFromRegister').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.body.removeChild(modal);
+                showLoginModal();
+            });
+        }
+
+        function handleLogin() {
+            const modal = document.getElementById('loginModal');
+            const form = modal.querySelector('#loginForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            
+            // Mostrar estado de carga
+            btnText.textContent = '';
+            submitBtn.innerHTML = '<div class="loading"></div>';
+            
+            // Simular proceso de login
+            setTimeout(() => {
+                currentUser = {
+                    name: 'Usuario',
+                    email: 'usuario@ejemplo.com',
+                    avatar: 'U'
+                };
+                
+                // Actualizar interfaz
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'flex';
+                userAvatar.textContent = currentUser.avatar;
+                
+                // Cerrar modal
+                document.body.removeChild(modal);
+                
+                // Actualizar dashboard
+                renderDashboard();
+                
+                // Mostrar mensaje de éxito
+                showToast('¡Inicio de sesión exitoso! Bienvenido a Cicada', 'success');
+            }, 1500);
+        }
+
+        function handleRegister() {
+            const modal = document.getElementById('registerModal');
+            const form = modal.querySelector('#registerForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            
+            // Mostrar estado de carga
+            btnText.textContent = '';
+            submitBtn.innerHTML = '<div class="loading"></div>';
+            
+            // Simular proceso de registro
+            setTimeout(() => {
+                currentUser = {
+                    name: 'Nuevo Usuario',
+                    email: 'nuevo@ejemplo.com',
+                    avatar: 'NU'
+                };
+                
+                // Actualizar interfaz
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'flex';
+                userAvatar.textContent = currentUser.avatar;
+                
+                // Cerrar modal
+                document.body.removeChild(modal);
+                
+                // Actualizar dashboard
+                renderDashboard();
+                
+                // Mostrar mensaje de éxito
+                showToast('¡Cuenta creada exitosamente! Bienvenido a Cicada', 'success');
+            }, 1500);
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            authButtons.style.display = 'flex';
+            userMenu.style.display = 'none';
+            
+            // Regresar a la página de inicio
+            navigateToPage('home');
+            
+            showToast('Sesión cerrada correctamente', 'info');
+        }
+
+        function checkUserStatus() {
+            // En una aplicación real, verificaría si hay un token de sesión
+            // Por ahora, simulamos que no hay usuario logueado
+            currentUser = null;
+        }
+
+        // Funciones de lecciones
+        function navigateToPrevLesson() {
+            if (!currentCourse || !currentLesson) return;
+            
+            const course = courseContent[currentCourse];
+            const currentModuleIndex = course.modules.findIndex(m => m.id === currentLesson.moduleId);
+            const currentModule = course.modules[currentModuleIndex];
+            const currentLessonIndex = currentModule.lessons.findIndex(l => l.id === currentLesson.lessonId);
+            
+            if (currentLessonIndex > 0) {
+                // Lección anterior en el mismo módulo
+                openLesson(currentLesson.moduleId, currentModule.lessons[currentLessonIndex - 1].id);
+            } else if (currentModuleIndex > 0) {
+                // Última lección del módulo anterior
+                const prevModule = course.modules[currentModuleIndex - 1];
+                openLesson(prevModule.id, prevModule.lessons[prevModule.lessons.length - 1].id);
+            }
+        }
+
+        function navigateToNextLesson() {
+            if (!currentCourse || !currentLesson) return;
+            
+            const course = courseContent[currentCourse];
+            const currentModuleIndex = course.modules.findIndex(m => m.id === currentLesson.moduleId);
+            const currentModule = course.modules[currentModuleIndex];
+            const currentLessonIndex = currentModule.lessons.findIndex(l => l.id === currentLesson.lessonId);
+            
+            if (currentLessonIndex < currentModule.lessons.length - 1) {
+                // Siguiente lección en el mismo módulo
+                openLesson(currentLesson.moduleId, currentModule.lessons[currentLessonIndex + 1].id);
+            } else if (currentModuleIndex < course.modules.length - 1) {
+                // Primera lección del siguiente módulo
+                openLesson(course.modules[currentModuleIndex + 1].id, course.modules[currentModuleIndex + 1].lessons[0].id);
+            } else {
+                // Última lección del curso
+                showToast('¡Felicidades! Has completado el curso.', 'success');
+            }
+        }
+
+        function completeCurrentLesson() {
+            if (!currentCourse || !currentLesson) return;
+            
+            const course = courseContent[currentCourse];
+            const module = course.modules.find(m => m.id === currentLesson.moduleId);
+            const lesson = module.lessons.find(l => l.id === currentLesson.lessonId);
+            
+            // Marcar lección como completada
+            lesson.completed = true;
+            
+            // Actualizar progreso del curso
+            updateCourseProgress();
+            
+            // Actualizar interfaz
+            const lessonItem = document.querySelector(`.lesson-item[data-lesson-id="${currentLesson.lessonId}"]`);
+            if (lessonItem) {
+                lessonItem.classList.add('completed');
+                lessonItem.querySelector('.lesson-icon').innerHTML = '<i class="fas fa-check"></i>';
+            }
+            
+            showToast('¡Lección completada!', 'success');
+            
+            // Navegar a la siguiente lección automáticamente
+            setTimeout(() => {
+                navigateToNextLesson();
+            }, 1000);
+        }
+
+        function updateCourseProgress() {
+            if (!currentCourse) return;
+            
+            const course = courseContent[currentCourse];
+            let totalLessons = 0;
+            let completedLessons = 0;
+            
+            // Contar lecciones completadas
+            course.modules.forEach(module => {
+                totalLessons += module.lessons.length;
+                completedLessons += module.lessons.filter(lesson => lesson.completed).length;
+            });
+            
+            // Calcular porcentaje de progreso
+            const progress = Math.round((completedLessons / totalLessons) * 100);
+            
+            // Actualizar curso en los datos
+            const courseIndex = coursesData.findIndex(c => c.id === currentCourse);
+            if (courseIndex !== -1) {
+                coursesData[courseIndex].progress = progress;
+            }
+            
+            // Actualizar dashboard
+            renderDashboard();
+        }
+
+        // Funciones de quiz
+        function selectAnswer(answerIndex) {
+            userAnswers[currentQuestionIndex] = answerIndex;
+            renderQuiz();
+        }
+
+        function navigateToPrevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuiz();
+            }
+        }
+
+        function navigateToNextQuestion() {
+            const questions = quizData[currentQuiz];
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuiz();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            const questions = quizData[currentQuiz];
+            let correctAnswers = 0;
+            
+            // Calcular respuestas correctas
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+            
+            const score = Math.round((correctAnswers / questions.length) * 100);
+            
+            // Mostrar resultados
+            showToast(`Quiz completado! Puntuación: ${score}%`, 'success');
+            
+            // Ocultar quiz
+            quizPage.classList.add('hidden');
+            
+            // Marcar lección como completada
+            if (currentCourse && currentLesson) {
+                const course = courseContent[currentCourse];
+                const module = course.modules.find(m => m.id === currentLesson.moduleId);
+                const lesson = module.lessons.find(l => l.id === currentLesson.lessonId);
+                lesson.completed = true;
+                updateCourseProgress();
+            }
+        }
+
+        // Funciones de comunidad
+        function showNewDiscussionModal() {
+            // Implementar modal para nueva discusión
+            showToast('Función de nueva discusión próximamente', 'info');
+        }
+
+        // Funciones de utilidad
+        function getLessonIcon(lessonType) {
+            switch(lessonType) {
+                case 'video': return 'fas fa-play';
+                case 'quiz': return 'fas fa-clipboard-list';
+                case 'practice': return 'fas fa-pencil-alt';
+                default: return 'fas fa-file';
+            }
+        }
+
+        function renderPaginationControls() {
+            const totalPages = Math.ceil(coursesData.length / coursesPerPage);
+            
+            // Eliminar controles existentes
+            const existingPagination = document.querySelector('.courses-pagination');
+            if (existingPagination) {
+                existingPagination.remove();
+            }
+            
+            if (totalPages > 1) {
+                const pagination = document.createElement('div');
+                pagination.className = 'courses-pagination';
+                pagination.style.cssText = 'display: flex; justify-content: center; gap: 8px; margin-top: 32px;';
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `btn ${i === currentCoursePage ? 'btn-primary' : 'btn-outline'}`;
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', () => {
+                        currentCoursePage = i;
+                        renderCourses();
+                    });
+                    pagination.appendChild(pageBtn);
+                }
+                
+                courseGrid.parentNode.appendChild(pagination);
+            }
+        }
+
+        function filterCourses(category) {
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            courseCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchCourses(query) {
+            const courseCards = document.querySelectorAll('.course-card');
+            const searchTerm = query.toLowerCase();
+            
+            courseCards.forEach(card => {
+                const title = card.querySelector('.course-title').textContent.toLowerCase();
+                const description = card.querySelector('.course-description').textContent.toLowerCase();
+                const instructor = card.querySelector('.course-instructor').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || instructor.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Funciones del carrusel de testimonios
+        function initTestimonialSlider() {
+            // Configurar el scroll inicial
+            testimonialSlider.scrollLeft = 0;
+        }
+
+        function scrollTestimonialsPrev() {
+            testimonialSlider.scrollBy({
+                left: -400,
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollTestimonialsNext() {
+            testimonialSlider.scrollBy({
+                left: 400,
+                behavior: 'smooth'
+            });
+        }
+
+        // Funciones de modo oscuro
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode');
+            
+            // Actualizar icono
+            if (darkMode) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Guardar preferencia
+            localStorage.setItem('darkMode', darkMode);
+            
+            // Mostrar feedback
+            showToast(`Modo ${darkMode ? 'oscuro' : 'claro'} activado`, 'info');
+        }
+
+        // Funciones del menú móvil
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.getElementById('mobileMenuToggle');
+            const spans = toggle.querySelectorAll('span');
+            
+            mobileMenu.classList.toggle('active');
+            
+            // Animar hamburguesa a X
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.getElementById('mobileMenuToggle');
+            const spans = toggle.querySelectorAll('span');
+            
+            mobileMenu.classList.remove('active');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+
+        // Funciones de notificaciones toast
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            // Configurar icono según el tipo
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Mostrar toast con animación
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Configurar cierre automático
+            const autoClose = setTimeout(() => {
+                closeToast(toast);
+            }, 5000);
+            
+            // Configurar cierre manual
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                clearTimeout(autoClose);
+                closeToast(toast);
+            });
+        }
+
+        function closeToast(toast) {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }
+    </script>
+</body>
+</html>
